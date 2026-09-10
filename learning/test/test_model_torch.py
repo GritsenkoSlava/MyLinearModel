@@ -1,5 +1,5 @@
 import torch
-import torch.nn as nn
+import torch.nn as nn 
 
 # Данные для обучения
 x = torch.tensor([[1.0], [2.0], [3.0], [4.0], [5.0]])  # Входные данные
