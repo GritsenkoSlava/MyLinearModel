@@ -1,29 +1,41 @@
 import numpy as np
-import random
 
 def train_model():
-    x = np.array([1, 2, 3, 4, 5], dtype=float)  # Взодные данные
-    y = np.array([2, 4, 6, 8, 10], dtype=float) # Выходные данные
+    x = np.array([1, 2, 3, 4, 5], dtype=float)
+    y = np.array([2, 4, 6, 8, 10], dtype=float)
 
-    w = random.random() # начинаем со случайного веса
-    lr = 0.01           # скорость обучения
-    epoch = 10000       # кол-во эпох (циклов)
+    lr   = 0.01
+    w    = 1
+    #b = 0
 
-    for epoch in range(epoch):
-        prediction = x * w
+    epoch = 10000
 
-        error = prediction - y
+    for i in range(epoch):
+        #predict = w*x + b
+        predict = w*x
+
+        error = predict - y
         loss  = np.mean(error**2)
 
-        gradient = np.mean(2*x*error)
+        gradient = np.mean(2*x*loss)
         w = w-lr*gradient
-
         return w
-        return prediction
-    
-w = train_model()
-number = 20
-result = number*w
 
-print(f'Вес:         ', w)
-print(f'Модель:      ', result)
+        #gradient_w = np.mean(w*x+b-y)*x
+        #gradient_b = np.mean(w*x+b-y)
+
+        #w = w-lr*gradient_w
+        #b = b-lr*gradient_b
+
+        #return w
+        #return b
+
+#b = train_model()
+w = train_model()
+
+number = 5
+result = w*number
+
+#print(f'Смещение:     ', b)
+print(f'Вес:     ', w)
+print(f'Модель:  ', result)
