@@ -1,46 +1,22 @@
-import torch
-import torch.nn as nn
+from learning.core.tensor import Tensor
+from learning.engine.engine import Engine
 
-class Linear:
-
+class Model:
     def __init__(self):
-        self.x = torch.tensor(
-            [[1], [2], [3], [4], [5]],
-            dtype=torch.float32
-        )
+        self.engine = Engine()
+        self.x, self.y = Tensor().process_data()
+        self.w = 0
+        self.b = 0
+        
 
-        self.y = torch.tensor(
-            [[2], [4], [6], [8], [10]],
-            dtype=torch.float32
-        )
-
-        self.model = nn.Linear(1, 1) 
-        self.loss = nn.MSELoss()      
-        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01)
-
-    def prediction(self):
-        predict = self.model(self.x)
-        return predict
-
-    def learn(self, epoch):
-        for i in range(epoch):
-            predict = self.prediction()
-            loss = self.loss(predict, self.y)
-
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+    def learn(self, epochs):
+        for epoch in range(epochs):
+            prediction = self.engine.predict(self.x, self.w, self.b)
+            loss = self.engine.loss(prediction, self.y)
+            grad = self.engine.gradient(self.x, self.w, self.b, prediction, self.y)
+            return loss
 
 
-            if epoch % 100 == 0:    # вывод каждых 100-а эпох и их результаты (при параметре epoch=1000)
-                print(f'Epoch: {epoch}, Error: {loss.item():.6f}')
-
-    def check(self):
-        num = torch.tensor([[10.0]], dtype=torch.float32)
-        result = self.model(num)
-        return result
-
-model = Linear()
-model.learn(1000)
-result = model.check()
-print(f'Result: {result.item()}')
+        if epochs % 100 == 0:
+            for _ in range(epoch):
+                print(f'Predict: {prediction} || x/Bias: {grad}')
