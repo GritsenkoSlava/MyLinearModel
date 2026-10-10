@@ -1,18 +1,25 @@
+import numpy as np
 class Engine:
     def __init__(self):
         pass
 
     def predict(self, x, w, b):
-        return self.x * self.w + self.b
+        return x * w + b
 
     def loss(self, predict, target):
-        return (predict - target)**2
+        return np.mean((predict - target)**2)
 
-    def gradient(self, x, w, b, predict, target):
+    def gradient(self, x, predict, target):
         d_loss = 2 * (predict - target)
 
-        w.grad = d_loss * x.data
-        b.grad = d_loss
+        grad_w = np.mean(d_loss * x)
+        grad_b = np.mean(d_loss)
 
-        return x, b
+        return grad_w, grad_b
 
+
+    def update(self, w, b, grad_w, grad_b,  learning_rate: float):
+        w = w - learning_rate * grad_w
+        b = b - learning_rate * grad_b
+
+        return w, b

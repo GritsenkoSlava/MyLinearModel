@@ -14,7 +14,12 @@ class Tensor:
         data_x_pd = data_pd.iloc[:, 0]
         data_y_pd = data_pd.iloc[:, 1]
 
-        data_x = data_x_pd.to_numpy()
-        data_y = data_y_pd.to_numpy()
+        data_x = data_x_pd.to_numpy(dtype=float)
+        data_y = data_y_pd.to_numpy(dtype=float)
+
+        print("X:", data_x)
+        print("Y:", data_y)
 
         return data_x, data_y
+
+print(Tensor().process_data())
